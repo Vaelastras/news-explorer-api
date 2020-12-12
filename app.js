@@ -4,10 +4,10 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const { errors } = require('celebrate');
-const { requestLogger, errorLogger } = require('./middlewares/logger');
 const rateLimiter = require('./utils/rate-limiter');
 const routes = require('./routes/index');
 const mainErrorHandler = require('./middlewares/mainErrorHandler');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { diplomaBaseUrl, diplomaBaseOptions } = require('./utils/diploma-db');
 
 const { PORT = 3000 } = process.env;
@@ -22,11 +22,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose.connect(diplomaBaseUrl, diplomaBaseOptions);
 
-// защита от злых дудосеров
-app.use(rateLimiter);
-
 // подключаем логгер запросов
 app.use(requestLogger);
+
+// защита от злых дудосеров
+app.use(rateLimiter);
 
 // подключаем роуты
 app.use('/', routes);
