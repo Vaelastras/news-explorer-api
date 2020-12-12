@@ -8,7 +8,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const rateLimiter = require('./utils/rate-limiter');
 const routes = require('./routes/index');
 const mainErrorHandler = require('./middlewares/mainErrorHandler');
-const {   diplomaBaseUrl, diplomaBaseOptions } = require('./utils/diploma-db');
+const { diplomaBaseUrl, diplomaBaseOptions } = require('./utils/diploma-db');
 
 const { PORT = 3000 } = process.env;
 const app = express();
