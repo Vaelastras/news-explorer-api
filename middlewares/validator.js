@@ -39,7 +39,7 @@ const validateCreateUser = celebrate({
       .messages({
         'any.required': 'Name field is required for usage',
         'string.min': 'Name field should be more than 2 symbols',
-        'string.max': 'Name field should be less than 20 sybmols',
+        'string.max': 'Name field should be less than 20 symbols',
       }),
   }),
 });

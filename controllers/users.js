@@ -2,11 +2,12 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { NotFoundError, ConflictError } = require('../errors');
+const { userNotExist } = require('../utils/error-messages/not-found-errors');
+const { emailExist } = require('../utils/error-messages/conflict-errors');
 require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
-// создание нового пользователя
 const createUser = (req, res, next) => {
   const {
     name, email, password,
@@ -24,7 +25,7 @@ const createUser = (req, res, next) => {
                 email: userData.email,
               }));
           } else {
-            throw new ConflictError('Email already exist');
+            throw new ConflictError(emailExist);
           }
         })
         .catch(next);
@@ -32,7 +33,6 @@ const createUser = (req, res, next) => {
     .catch(next);
 };
 
-// вход в систему
 const login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
@@ -45,12 +45,11 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-// получение себя
 const getUserInfo = (req, res, next) => {
   User.findById(req.user)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('That user doesn\'t exist');
+        throw new NotFoundError(userNotExist);
       }
       res.send({
         email: user.email,

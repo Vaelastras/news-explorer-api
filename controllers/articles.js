@@ -5,6 +5,11 @@ const {
   ForbiddenError,
 } = require('../errors');
 
+const { articleNotExist } = require('../utils/error-messages/not-found-errors');
+const { notPermitted } = require('../utils/error-messages/forbidden-errors');
+const { notValidValue } = require('../utils/error-messages/validation-errors');
+const { articleDeleted } = require('../utils/info-messages/index');
+
 const getAllArticles = (req, res, next) => {
   Articles.find({ owner: req.user._id })
     .then((articles) => res.send(articles))
@@ -39,7 +44,7 @@ const createArticle = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        throw new ValidationError('Please type a right data!');
+        throw new ValidationError(notValidValue);
       }
       next(err);
     });
@@ -47,13 +52,13 @@ const createArticle = (req, res, next) => {
 
 const deleteArticleById = (req, res, next) => {
   Articles.findById(req.params.articleId).select('+owner')
-    .orFail(new NotFoundError('Нет такой статьи'))
+    .orFail(new NotFoundError(articleNotExist))
     .then((article) => {
       if (article.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Недостаточно прав для удаления статьи');
+        throw new ForbiddenError(notPermitted);
       }
       article.remove();
-      res.send({ message: 'Статья удалена из ленты' });
+      res.send(articleDeleted);
     })
     .catch(next);
 };

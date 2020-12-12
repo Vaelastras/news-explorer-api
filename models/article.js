@@ -1,62 +1,62 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { requiredField, notURL } = require('../utils/error-messages/validation-errors');
 
 const articleSchema = new mongoose.Schema({
   keyword: {
     type: String,
-    required: true,
+    required: [true, requiredField],
   },
 
   title: {
     type: String,
-    required: true,
+    required: [true, requiredField],
   },
 
   text: {
     type: String,
-    required: true,
+    required: [true, requiredField],
   },
 
   date: {
     type: String,
-    required: true,
+    required: [true, requiredField],
   },
 
   source: {
     type: String,
-    required: true,
+    required: [true, requiredField],
   },
 
   link: {
     type: String,
-    required: true,
+    required: [true, requiredField],
     validate: {
       validator(v) {
         return validator.isURL(v);
       },
-      message: (props) => `${props.value} not valid URL!`,
+      message: (props) => `${props.value} ${notURL}`,
     },
   },
 
   image: {
     type: String,
-    required: true,
+    required: [true, requiredField],
     validate: {
       validator(v) {
         return validator.isURL(v);
       },
-      message: (props) => `${props.value} is not a valid URL!`,
+      message: (props) => `${props.value} ${notURL}`,
     },
   },
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
-    required: true,
+    required: [true, requiredField],
     select: false,
   },
 
 });
 
-// создаём модель и экспортируем её
 module.exports = mongoose.model('article', articleSchema);
