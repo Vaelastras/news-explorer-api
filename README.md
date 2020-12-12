@@ -29,8 +29,8 @@ Cервер разработан на JS c использованием библ
 
 ## Публичный IP-адрес
 
-`84.201.160.137` - IPv4
+`130.193.34.216` - IPv4
 
 ## Домен для обращения к API
 
-_[Ссылка на бэк](https://api.sealkindom.students.nomoreparties.space/)_  
+_[Ссылка на бэк](https://api.jellyfish.students.nomoreparties.space/)_  
