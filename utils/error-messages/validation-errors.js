@@ -1,4 +1,4 @@
-module.export = {
+module.exports = {
   toLess: '- should be more than 2 symbols',
   toLong: '- should be less than 30 symbols',
   requiredField: '- field is required to tape',

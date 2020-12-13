@@ -46,7 +46,7 @@ const validateCreateUser = celebrate({
 
 const validateArticleDelete = celebrate({
   params: Joi.object().keys({
-    articleId: Joi.string().required().hex(),
+    articleId: Joi.string().required().hex().length(24),
   }),
 });
 

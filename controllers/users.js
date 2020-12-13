@@ -4,6 +4,8 @@ const User = require('../models/user');
 const { NotFoundError, ConflictError } = require('../errors');
 const { userNotExist } = require('../utils/error-messages/not-found-errors');
 const { emailExist } = require('../utils/error-messages/conflict-errors');
+const { JWT_SECRET_DEV } = require('../utils/config');
+
 require('dotenv').config();
 
 const { NODE_ENV, JWT_SECRET } = process.env;
@@ -38,7 +40,7 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        NODE_ENV === 'production' ? JWT_SECRET : JWT_SECRET_DEV,
         { expiresIn: '7d' });
       res.send({ token });
     })

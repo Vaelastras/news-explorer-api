@@ -6,6 +6,6 @@ const {
 
 router.get('/articles', getAllArticles);
 router.post('/articles', validateArticleCreate, createArticle);
-router.delete('/article/:articleId', validateArticleDelete, deleteArticleById);
+router.delete('/articles/:articleId', validateArticleDelete, deleteArticleById);
 
 module.exports = router;

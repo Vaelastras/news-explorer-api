@@ -47,7 +47,8 @@ const createArticle = (req, res, next) => {
         throw new ValidationError(notValidValue);
       }
       next(err);
-    });
+    })
+    .catch(next);
 };
 
 const deleteArticleById = (req, res, next) => {
@@ -58,7 +59,7 @@ const deleteArticleById = (req, res, next) => {
         throw new ForbiddenError(notPermitted);
       }
       article.remove();
-      res.send(articleDeleted);
+      res.send({ message: `${articleDeleted}` });
     })
     .catch(next);
 };
